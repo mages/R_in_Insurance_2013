@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Function to show chart</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for plotchart {R in Insurance: Automated Reporting}"><tr><td>plotchart {R in Insurance: Automated Reporting}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>
+
+Function to show chart
+</h2>
+
+<h3>Description</h3>
+
+
+<p>Shows series of charts with labelling of legends based on dataframe df. The series is defined by fac and the legend by leg which should be defined in quotes from names in df.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+plotchart &lt;- function(df, fac = "ClaimSeverityInd", 
+                          vals = "FREQ_EPI_1m", 
+                          leg = "YOA",
+                          x = "dev", 
+                          xl = "Development quarters", 
+                          yl = "Claims per ?m of premiums", 
+                          HeadTitle = "",
+                          scale.by = NULL,
+                          xscale.by=NULL,
+                          yScaleMin=NULL,
+                          usedirectlabel=TRUE,
+                          UseZeroYaxis=TRUE) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>df</code></td>
+<td>
+
+<p>Dataframe
+</p>
+</td></tr>
+<tr valign="top"><td><code>fac</code></td>
+<td>
+
+
+<p>Used to creates series of charts, for each element of fac. Need not be factor as this is created automatically if it isn't already a factor.
+</p>
+</td></tr>
+<tr valign="top"><td><code>vals</code></td>
+<td>
+
+<p>vector of values to plot. Must be numeric
+</p>
+</td></tr>
+<tr valign="top"><td><code>leg</code></td>
+<td>
+
+<p>separate lines are drawn for each element of leg. leg is also added using directlabels package to chart. Need not be factor as this is created automatically if it isn't already a factor.
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>x-axis variable
+</p>
+</td></tr>
+<tr valign="top"><td><code>xl</code></td>
+<td>
+
+<p>x-axis title
+</p>
+</td></tr>
+<tr valign="top"><td><code>yl</code></td>
+<td>
+
+<p>y-axis title
+</p>
+</td></tr>
+<tr valign="top"><td><code>HeadTitle</code></td>
+<td>
+
+<p>Header title. The fac value for each chart is added automatically to the title.
+</p>
+</td></tr>
+<tr valign="top"><td><code>scale.by</code></td>
+<td>
+
+<p>An optional scale factor can be applied to the values. Useful for say % by setting to 100. If yl is started with LOSS RATIO then the scale.by defaults to 100.
+</p>
+</td></tr>
+<tr valign="top"><td><code>xscale.by</code></td>
+<td>
+
+<p>An optional scale factor can be applied to the values on the x axis. Useful for say % by setting to 100.
+</p>
+</td></tr>
+<tr valign="top"><td><code>yScaleMin</code></td>
+<td>
+
+<p>An optional value for the y axis to specify the minimum limit to show. Useful when showing development ratios for early years of account which should reach 1 ultimately (if the ultimate target is to be reached). Enter with the scale factor applied (i.e. 75 for 75% if scale.by=100)
+</p>
+</td></tr>
+<tr valign="top"><td><code>UseZeroYaxis</code></td>
+<td>
+
+<p>An optional value to supress use of zero on y axis, by setting to FALSE. Useful if the range of y values is very different from 0. Default value is TRUE, to show 0 on y axis.
+</p>
+</td></tr>
+<tr valign="top"><td><code>usedirectplot</code></td>
+<td>
+
+<p>An optional value, defaulted to TRUE, to allow direct labels to be added to charts.Sometimes worth overring with usedirectplot=FALSE where the chart output is too complex.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Makes use of ggplot2 and directlabels packages
+</p>
+
+
+<h3>Value</h3>
+
+<p>returns a ggplot graph object
+</p>
+
+
+<h3>Author(s)</h3>
+
+
+<p>Simon Brickman
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+res&lt;-data.frame(YOA=rep.int(c(2006,2007),c(8,4)),dev=c(1:8,1:4),
+                Loss_Ratio=c(5,10,20,40,60,70,75,78,7,12,30,50,20,40,70,80,78,75,75,73,39,60,70,75),
+                Type=rep.int(c("Incurred","Blend"),c(12,12)))
+plotchart(res,fac="Type",vals="Loss_Ratio",x="dev",yl="Loss Ratio",
+          leg="YOA",HeadTitle="Example Loss Ratios")
+
+
+</pre>
+
+
+</body></html>

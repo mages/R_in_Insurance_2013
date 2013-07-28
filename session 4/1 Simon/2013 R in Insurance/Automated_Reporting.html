@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js.gz"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body>
+<div id="automated-reporting" class="slide section level1">
+<h1>Automated Reporting</h1>
+<p>R in Insurance</p>
+<p>July 15, 2013</p>
+<ul>
+<li>Simon Brickman
+<ul>
+<li><a href="emailto:simon.brickman@beazley.com">simon.brickman@beazley.com</a></li>
+</ul></li>
+<li>Adam L. Rich
+<ul>
+<li><a href="emailto:adam.rich@beazley.com">adam.rich@beazley.com</a></li>
+<li><a href="http://adamleerich.com">http://adamleerich.com</a></li>
+</ul></li>
+</ul>
+</div>
+<div id="cooking-with-computers" class="slide section level1">
+<h1>Cooking with Computers</h1>
+<div class="figure">
+<img src="./Cheesecake.jpg" width=800 />
+</div>
+</div>
+<div id="code-report" class="slide section level1">
+<h1>Code &gt; Report</h1>
+<ul class="incremental">
+<li>We like to analyze data</li>
+<li>We are required to share those analyses with people who don't read code</li>
+<li>We don't like re-writing stuff</li>
+<li>What if we could write R scripts and automagically print reports?</li>
+<li>No LaTeX! No Sweave! No code chunks!</li>
+</ul>
+</div>
+<div id="generalized-charts" class="slide section level1">
+<h1>Generalized Charts</h1>
+<ul>
+<li>We produce a lot of charts</li>
+<li>They must be consistently formatted</li>
+<li>We write wrappers around <code>ggplot2</code> functions to standardize our plots and encapsulate repeated code</li>
+<li><code>directlabels</code></li>
+</ul>
+</div>
+<div id="i-am-an-r-script" class="slide section level1">
+<h1>I Am an R-Script</h1>
+<ul>
+<li>Prove it (<a href="./Automated_Reporting.R">R script</a>)</li>
+<li><code>knitr</code></li>
+<li><code>spin</code></li>
+<li>A lot more to come in this area
+<ul>
+<li>Shameless self promotion</li>
+<li>http://adamleerich.com</li>
+</ul></li>
+</ul>
+</div>
+<div id="enough-fluff-more-charts" class="slide section level1">
+<h1>Enough Fluff! More Charts!</h1>
+<ul>
+<li>Our best advances have been in chart automation/standardization</li>
+<li>Our code is not all-purpose (on purpose)</li>
+<li>But, it is general enough for our most time-sensitive work</li>
+<li>We don't always have time to fiddle with all the details</li>
+<li>And, people (management, underwriters) want to see the same thing over and over again anyway</li>
+</ul>
+</div>
+<div id="bzlycharts" class="slide section level1">
+<h1><code>BZLYCharts</code></h1>
+<p>The functions we are sharing are part of a not yet fully developed, internal use only package called <code>BZLYCharts</code>.</p>
+<p>Not all code needs to be on CRAN. We encourage everyone to have their own packages.</p>
+<p>For now we will just load the functions.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;RLondon2013ChartFunctions.r&quot;</span>)
+<span class="kw">ls</span>()</code></pre>
+<pre><code>## [1] &quot;is.Date&quot;    &quot;left&quot;       &quot;MAChart&quot;    &quot;monthsteps&quot; &quot;plotchart&quot; 
+## [6] &quot;right&quot;      &quot;toDate&quot;</code></pre>
+</div>
+<div id="contents" class="slide section level1">
+<h1>Contents</h1>
+<p>The two functions we want to share are</p>
+<ol style="list-style-type: decimal">
+<li>plotchart (<a href="./help-files/RL2013_plotchart.html">help file</a>)</li>
+<li>MAChart (<a href="./help-files/RL2013_MAChart.html">help file</a>)</li>
+</ol>
+</div>
+<div id="simple-example" class="slide section level1">
+<h1>Simple Example</h1>
+<p>We start with simple example with a small data frame.</p>
+<pre class="sourceCode r"><code class="sourceCode r">simple &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+  <span class="dt">YOA =</span> <span class="kw">rep.int</span>(<span class="kw">c</span>(<span class="dv">2006</span>, <span class="dv">2007</span>), <span class="kw">c</span>(<span class="dv">8</span>, <span class="dv">4</span>)),
+  <span class="dt">dev =</span> <span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">8</span>, <span class="dv">1</span>:<span class="dv">4</span>),
+  <span class="dt">Loss_Ratio =</span> <span class="kw">c</span>( <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">60</span>, <span class="dv">70</span>, <span class="dv">75</span>, <span class="dv">78</span>,
+                  <span class="dv">7</span>, <span class="dv">12</span>, <span class="dv">30</span>, <span class="dv">50</span>, <span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">70</span>, <span class="dv">80</span>,
+                 <span class="dv">78</span>, <span class="dv">75</span>, <span class="dv">75</span>, <span class="dv">73</span>, <span class="dv">39</span>, <span class="dv">60</span>, <span class="dv">70</span>, <span class="dv">75</span>),
+  <span class="dt">Type =</span> <span class="kw">rep.int</span>(<span class="kw">c</span>(<span class="st">&quot;Paid&quot;</span>,<span class="st">&quot;Incurred&quot;</span>), <span class="kw">c</span>(<span class="dv">12</span>, <span class="dv">12</span>))
+)
+
+simple</code></pre>
+<pre><code>##     YOA dev Loss_Ratio     Type
+## 1  2006   1          5     Paid
+## 2  2006   2         10     Paid
+## 3  2006   3         20     Paid
+## 4  2006   4         40     Paid
+## 5  2006   5         60     Paid
+## 6  2006   6         70     Paid
+## 7  2006   7         75     Paid
+## 8  2006   8         78     Paid
+## 9  2007   1          7     Paid
+## 10 2007   2         12     Paid
+## 11 2007   3         30     Paid
+## 12 2007   4         50     Paid
+## 13 2006   1         20 Incurred
+## 14 2006   2         40 Incurred
+## 15 2006   3         70 Incurred
+## 16 2006   4         80 Incurred
+## 17 2006   5         78 Incurred
+## 18 2006   6         75 Incurred
+## 19 2006   7         75 Incurred
+## 20 2006   8         73 Incurred
+## 21 2007   1         39 Incurred
+## 22 2007   2         60 Incurred
+## 23 2007   3         70 Incurred
+## 24 2007   4         75 Incurred</code></pre>
+</div>
+<div id="tabular-triangle" class="slide section level1">
+<h1>&quot;Tabular&quot; Triangle</h1>
+<p>We can see this as a triangle using <code>tapply</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">with</span>(simple, <span class="kw">tapply</span>(Loss_Ratio, <span class="kw">list</span>(YOA, dev, Type), I))</code></pre>
+<pre><code>## , , Incurred
+## 
+##       1  2  3  4  5  6  7  8
+## 2006 20 40 70 80 78 75 75 73
+## 2007 39 60 70 75 NA NA NA NA
+## 
+## , , Paid
+## 
+##      1  2  3  4  5  6  7  8
+## 2006 5 10 20 40 60 70 75 78
+## 2007 7 12 30 50 NA NA NA NA</code></pre>
+</div>
+<div id="graphical-triangle" class="slide section level1">
+<h1>&quot;Graphical&quot; Triangle</h1>
+<p>Now use this one-line statement to see this information graphically</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plotchart</span>(
+  <span class="dt">df =</span> simple, <span class="dt">fac =</span> <span class="st">&quot;Type&quot;</span>, <span class="dt">vals =</span> <span class="st">&quot;Loss_Ratio&quot;</span>,
+  <span class="dt">x =</span> <span class="st">&quot;dev&quot;</span>, <span class="dt">yl =</span> <span class="st">&quot;LR(%)&quot;</span>, <span class="dt">leg =</span> <span class="st">&quot;YOA&quot;</span>,
+  <span class="dt">HeadTitle =</span> <span class="st">&quot;Example Loss Ratios&quot;</span>
+)</code></pre>
+<p><img src="figure/unnamed-chunk-41.png" alt="plot of chunk unnamed-chunk-4" /> <img src="figure/unnamed-chunk-42.png" alt="plot of chunk unnamed-chunk-4" /></p>
+</div>
+<div id="what-is-plotchart-doing" class="slide section level1">
+<h1>What is <code>plotchart</code> Doing?</h1>
+<p>It takes a dataframe and creates a bunch of charts</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Argument</th>
+<th align="left">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">df</td>
+<td align="left">The dataframe (not a data.table!)</td>
+</tr>
+<tr class="even">
+<td align="left">fac</td>
+<td align="left">Factor to split charts</td>
+</tr>
+<tr class="odd">
+<td align="left">vals</td>
+<td align="left">The y-axis value</td>
+</tr>
+<tr class="even">
+<td align="left">x</td>
+<td align="left">The x-axis value</td>
+</tr>
+<tr class="odd">
+<td align="left">yl</td>
+<td align="left">Label for y-axis</td>
+</tr>
+<tr class="even">
+<td align="left">leg</td>
+<td align="left">Further split charts into lines</td>
+</tr>
+<tr class="odd">
+<td align="left">HeadTitle</td>
+<td align="left">Title stub</td>
+</tr>
+<tr class="even">
+<td align="left"><code>...</code></td>
+<td align="left">Of course, there are others</td>
+</tr>
+</tbody>
+</table>
+<p><a href="./help-files/RL2013_plotchart.html"><code>plotchart</code> help file!</a></p>
+</div>
+<div id="switch-it-up" class="slide section level1">
+<h1>Switch It Up</h1>
+<p><code>plotchart</code> was built to make it easy to make a lot of charts and to be able to quickly change how the data is laid out without having to copy chunks of code or re-formatting. For example, it is very easy to change the x- and y-axes.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plotchart</span>(
+  simple, <span class="dt">fac =</span> <span class="st">&quot;YOA&quot;</span>, <span class="dt">vals =</span> <span class="st">&quot;Loss_Ratio&quot;</span>,
+  <span class="dt">x =</span> <span class="st">&quot;dev&quot;</span>, <span class="dt">yl =</span> <span class="st">&quot;LR(%)&quot;</span>, <span class="dt">leg =</span> <span class="st">&quot;Type&quot;</span>,
+  <span class="dt">HeadTitle =</span> <span class="st">&quot;Example Loss Ratios&quot;</span>
+)</code></pre>
+<p><img src="figure/unnamed-chunk-51.png" alt="plot of chunk unnamed-chunk-5" /> <img src="figure/unnamed-chunk-52.png" alt="plot of chunk unnamed-chunk-5" /></p>
+</div>
+<div id="more-complicated-example" class="slide section level1">
+<h1>More Complicated Example</h1>
+<p>Let's try a more involved dataset of individual claims.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;./data/PreparedData.RData&quot;</span>)
+<span class="kw">head</span>(claims.agg)</code></pre>
+<pre><code>##    YOA dev           Type   valsum valnum
+## 1 2003  13    IncurredUSD 15902522    201
+## 2 2003  13  MostlikelyUSD 15902522    201
+## 3 2003  13       BlendUSD 15902522    201
+## 4 2003  13 PessimisticUSD 15902522    201
+## 5 2003  14    IncurredUSD 19150307    204
+## 6 2003  14  MostlikelyUSD 19150307    204</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(claims.agg)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    780 obs. of  5 variables:
+##  $ YOA   : int  2003 2003 2003 2003 2003 2003 2003 2003 2003 2003 ...
+##  $ dev   : num  13 13 13 13 14 14 14 14 15 15 ...
+##  $ Type  : Factor w/ 4 levels &quot;IncurredUSD&quot;,..: 1 2 3 4 1 2 3 4 1 2 ...
+##  $ valsum: num  15902522 15902522 15902522 15902522 19150307 ...
+##  $ valnum: int  201 201 201 201 204 204 204 204 206 206 ...</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">levels</span>(claims.agg$Type)</code></pre>
+<pre><code>## [1] &quot;IncurredUSD&quot;    &quot;MostlikelyUSD&quot;  &quot;BlendUSD&quot;       &quot;PessimisticUSD&quot;</code></pre>
+</div>
+<div id="yoas-for-each-measure" class="slide section level1">
+<h1>YOAs for each Measure</h1>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plotchart</span>(
+  claims.agg, <span class="dt">fac =</span> <span class="st">&quot;Type&quot;</span>, <span class="dt">vals =</span> <span class="st">&quot;valsum&quot;</span>,
+  <span class="dt">x =</span> <span class="st">&quot;dev&quot;</span>, <span class="dt">yl =</span> <span class="st">&quot;Cost&quot;</span>, <span class="dt">leg =</span> <span class="st">&quot;YOA&quot;</span>,
+  <span class="dt">HeadTitle =</span> <span class="st">&quot;Claim Development&quot;</span>
+)</code></pre>
+<p><img src="figure/unnamed-chunk-61.png" alt="plot of chunk unnamed-chunk-6" /> <img src="figure/unnamed-chunk-62.png" alt="plot of chunk unnamed-chunk-6" /> <img src="figure/unnamed-chunk-63.png" alt="plot of chunk unnamed-chunk-6" /> <img src="figure/unnamed-chunk-64.png" alt="plot of chunk unnamed-chunk-6" /></p>
+</div>
+<div id="yoas-for-each-measure-usedirectlabel-false" class="slide section level1">
+<h1>YOAs for each Measure: <code>usedirectlabel = FALSE</code></h1>
+<p>The labelling looks too busy as there are too many lines, so use of standard key is preferred</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plotchart</span>(
+  claims.agg, <span class="dt">fac =</span> <span class="st">&quot;Type&quot;</span>, <span class="dt">vals =</span> <span class="st">&quot;valsum&quot;</span>,
+  <span class="dt">x =</span> <span class="st">&quot;dev&quot;</span>, <span class="dt">yl =</span> <span class="st">&quot;Cost&quot;</span>, <span class="dt">leg =</span> <span class="st">&quot;YOA&quot;</span>,
+  <span class="dt">HeadTitle =</span> <span class="st">&quot;Claim Development&quot;</span>,
+  <span class="dt">usedirectlabel =</span> <span class="ot">FALSE</span>
+)</code></pre>
+<p><img src="figure/unnamed-chunk-71.png" alt="plot of chunk unnamed-chunk-7" /> <img src="figure/unnamed-chunk-72.png" alt="plot of chunk unnamed-chunk-7" /> <img src="figure/unnamed-chunk-73.png" alt="plot of chunk unnamed-chunk-7" /> <img src="figure/unnamed-chunk-74.png" alt="plot of chunk unnamed-chunk-7" /></p>
+</div>
+<div id="measures-for-each-yoa" class="slide section level1">
+<h1>Measures for each YOA</h1>
+<p>Now let's switch legend and factors to see how measures compare</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plotchart</span>(
+  claims.agg, <span class="dt">fac=</span><span class="st">&quot;YOA&quot;</span>, <span class="dt">vals =</span> <span class="st">&quot;valsum&quot;</span>,
+  <span class="dt">x =</span> <span class="st">&quot;dev&quot;</span>, <span class="dt">yl =</span> <span class="st">&quot;Cost&quot;</span>, <span class="dt">leg =</span> <span class="st">&quot;Type&quot;</span>,
+  <span class="dt">HeadTitle =</span> <span class="st">&quot;Claim Development&quot;</span>
+)</code></pre>
+<p><img src="figure/unnamed-chunk-81.png" alt="plot of chunk unnamed-chunk-8" /> <img src="figure/unnamed-chunk-82.png" alt="plot of chunk unnamed-chunk-8" /> <img src="figure/unnamed-chunk-83.png" alt="plot of chunk unnamed-chunk-8" /> <img src="figure/unnamed-chunk-84.png" alt="plot of chunk unnamed-chunk-8" /> <img src="figure/unnamed-chunk-85.png" alt="plot of chunk unnamed-chunk-8" /> <img src="figure/unnamed-chunk-86.png" alt="plot of chunk unnamed-chunk-8" /> <img src="figure/unnamed-chunk-87.png" alt="plot of chunk unnamed-chunk-8" /> <img src="figure/unnamed-chunk-88.png" alt="plot of chunk unnamed-chunk-8" /> <img src="figure/unnamed-chunk-89.png" alt="plot of chunk unnamed-chunk-8" /> <img src="figure/unnamed-chunk-810.png" alt="plot of chunk unnamed-chunk-8" /></p>
+</div>
+<div id="output-to-pdf" class="slide section level1">
+<h1>Output to PDF</h1>
+<p>If we want to send these charts out we can simply specify pdf output. (We plan to offer HTML/PNG indexed and individual output in the future.)</p>
+<pre class="sourceCode r"><code class="sourceCode r">pdfOn &lt;-<span class="st"> </span><span class="ot">TRUE</span>
+if(pdfOn ==<span class="st"> </span><span class="ot">TRUE</span>) <span class="kw">pdf</span>(<span class="dt">file =</span> <span class="st">&quot;Example1.pdf&quot;</span>)
+<span class="kw">plotchart</span>(
+  claims.agg, <span class="dt">fac =</span> <span class="st">&quot;YOA&quot;</span>, <span class="dt">vals =</span> <span class="st">&quot;valsum&quot;</span>,
+  <span class="dt">x =</span> <span class="st">&quot;dev&quot;</span>, <span class="dt">yl =</span> <span class="st">&quot;Cost&quot;</span>, <span class="dt">leg =</span> <span class="st">&quot;Type&quot;</span>,
+  <span class="dt">HeadTitle =</span> <span class="st">&quot;Claim Development&quot;</span>
+)
+if(pdfOn ==<span class="st"> </span><span class="ot">TRUE</span>) <span class="kw">dev.off</span>()</code></pre>
+<pre><code>## pdf 
+##   2</code></pre>
+</div>
+<div id="frequency-graphs" class="slide section level1">
+<h1>Frequency Graphs</h1>
+<p>We can also look at claim numbers - and if we had premium or an exposure measure the numbers could be turned into a frequency measure.</p>
+<p>It doesn't make any sense to show numbers for all measures as these will be identical, so run without factor.</p>
+</div>
+<div id="frequency-graphs-contd" class="slide section level1">
+<h1>Frequency Graphs (cont'd)</h1>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plotchart</span>(
+  claims.agg, <span class="dt">fac =</span> <span class="st">&quot;&quot;</span>, <span class="dt">vals =</span> <span class="st">&quot;valnum&quot;</span>, 
+  <span class="dt">x =</span> <span class="st">&quot;dev&quot;</span>, <span class="dt">yl =</span> <span class="st">&quot;Number&quot;</span>, <span class="dt">leg =</span> <span class="st">&quot;YOA&quot;</span>,
+  <span class="dt">HeadTitle =</span> <span class="st">&quot;Claim Development&quot;</span>,
+  <span class="dt">usedirectlabel =</span> <span class="ot">FALSE</span>
+)</code></pre>
+<div class="figure">
+<img src="figure/unnamed-chunk-10.png" alt="plot of chunk unnamed-chunk-10" />
+</div>
+<pre class="sourceCode r"><code class="sourceCode r"></code></pre>
+</div>
+<div id="comparisons-to-ultimate" class="slide section level1">
+<h1>Comparisons to Ultimate</h1>
+<p>Let's compare the measures against the proposed ultimate values (called HELD).</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plotchart</span>(
+  <span class="kw">as.data.frame</span>(CLAIMS.WH), <span class="dt">fac =</span> <span class="st">&quot;YOA&quot;</span>, <span class="dt">vals =</span> <span class="st">&quot;valsum&quot;</span>,
+  <span class="dt">x =</span> <span class="st">&quot;dev&quot;</span>, <span class="dt">yl =</span> <span class="st">&quot;Claim Cost&quot;</span>, <span class="dt">leg =</span> <span class="st">&quot;Type&quot;</span>,
+  <span class="dt">HeadTitle =</span> <span class="st">&quot;Comparison of Measures&quot;</span>,
+  <span class="dt">usedirectlabel =</span> <span class="ot">FALSE</span>
+)</code></pre>
+<p><img src="figure/unnamed-chunk-131.png" alt="plot of chunk unnamed-chunk-13" /> <img src="figure/unnamed-chunk-132.png" alt="plot of chunk unnamed-chunk-13" /> <img src="figure/unnamed-chunk-133.png" alt="plot of chunk unnamed-chunk-13" /> <img src="figure/unnamed-chunk-134.png" alt="plot of chunk unnamed-chunk-13" /> <img src="figure/unnamed-chunk-135.png" alt="plot of chunk unnamed-chunk-13" /> <img src="figure/unnamed-chunk-136.png" alt="plot of chunk unnamed-chunk-13" /> <img src="figure/unnamed-chunk-137.png" alt="plot of chunk unnamed-chunk-13" /> <img src="figure/unnamed-chunk-138.png" alt="plot of chunk unnamed-chunk-13" /> <img src="figure/unnamed-chunk-139.png" alt="plot of chunk unnamed-chunk-13" /> <img src="figure/unnamed-chunk-1310.png" alt="plot of chunk unnamed-chunk-13" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"></code></pre>
+</div>
+<div id="moving-average-charts" class="slide section level1">
+<h1>Moving Average Charts</h1>
+<p>Another function like <code>plotchart</code> is <code>MAChart</code>. The following examples show duration to close and its change over time.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(DTC)</code></pre>
+<pre><code>##    ClosedYYMM num mn          v totdays
+## 1:     200601   0  0 2006-01-01       0
+## 2:     200602   0  0 2006-02-01       0
+## 3:     200603   0  0 2006-03-01       0
+## 4:     200604   0  0 2006-04-01       0
+## 5:     200605   0  0 2006-05-01       0
+## 6:     200606   0  0 2006-06-01       0</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(DTC.IND)</code></pre>
+<pre><code>##    ClosedYYMM ClaimSeverityInd num mn          v totdays
+## 1:     200601                1   0  0 2006-01-01       0
+## 2:     200601                2   0  0 2006-01-01       0
+## 3:     200601                3   0  0 2006-01-01       0
+## 4:     200601                4   0  0 2006-01-01       0
+## 5:     200602                1   0  0 2006-02-01       0
+## 6:     200602                2   0  0 2006-02-01       0</code></pre>
+</div>
+<div id="moving-average-charts-contd" class="slide section level1">
+<h1>Moving Average Charts (Cont'd)</h1>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">MAChart</span>(
+  <span class="dt">df =</span> <span class="kw">as.data.frame</span>(DTC), <span class="dt">ywt =</span> <span class="dv">2</span>, <span class="dt">ycol =</span> <span class="dv">3</span>, <span class="dt">xcol =</span> <span class="dv">4</span>,
+  <span class="dt">main =</span> <span class="st">&quot;Duration to close (12m moving average)&quot;</span>,
+  <span class="dt">xlab =</span> <span class="st">&quot;Closed Year+Month&quot;</span>,
+  <span class="dt">ylab =</span> <span class="st">&quot;Average Duration (days)&quot;</span>,
+  <span class="dt">xstep =</span> <span class="dv">3</span>, <span class="dt">xRotate =</span> T
+)</code></pre>
+<div class="figure">
+<img src="figure/unnamed-chunk-16.png" alt="plot of chunk unnamed-chunk-16" />
+</div>
+</div>
+<div id="moving-average-charts-contd-1" class="slide section level1">
+<h1>Moving Average Charts (cont'd)</h1>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">MAChart</span>(
+  <span class="dt">df =</span> <span class="kw">as.data.frame</span>(DTC.IND), <span class="dt">ywt =</span> <span class="dv">3</span>, <span class="dt">ycol =</span> <span class="dv">4</span>, <span class="dt">xcol =</span> <span class="dv">5</span>,
+  <span class="dt">main =</span> <span class="st">&quot;Duration to close (12m MA) by SeverityIndicator&quot;</span>,
+  <span class="dt">xlab =</span> <span class="st">&quot;Closed Year+Month&quot;</span>,
+  <span class="dt">ylab =</span> <span class="st">&quot;Average Duration (days)&quot;</span>,
+  <span class="dt">xstep =</span> <span class="dv">3</span>,
+  <span class="dt">leg=</span><span class="st">&quot;ClaimSeverityInd&quot;</span>,
+  <span class="dt">xRotate =</span> T
+)</code></pre>
+<div class="figure">
+<img src="figure/unnamed-chunk-17.png" alt="plot of chunk unnamed-chunk-17" />
+</div>
+</div>
+<div id="the-end" class="slide section level1">
+<h1>The End</h1>
+<p>The data and all this code will be made available to conference participants.</p>
+<p>Thanks!</p>
+<ul>
+<li>Simon Brickman
+<ul>
+<li><a href="emailto:simon.brickman@beazley.com">simon.brickman@beazley.com</a></li>
+</ul></li>
+<li>Adam L. Rich
+<ul>
+<li><a href="emailto:adam.rich@beazley.com">adam.rich@beazley.com</a></li>
+<li><a href="http://adamleerich.com">http://adamleerich.com</a></li>
+</ul></li>
+</ul>
+</div>
+</body>
+</html>

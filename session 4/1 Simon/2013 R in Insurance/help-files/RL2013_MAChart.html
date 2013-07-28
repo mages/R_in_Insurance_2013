@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Moving Average Chart to deal with claim duration</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for MAChart {R in Insurance: Automated Reporting}"><tr><td>MAChart {R in Insurance: Automated Reporting}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>
+Moving Average Chart to deal with claim duration
+</h2>
+
+<h3>Description</h3>
+
+<p>quick way to plot moving average chart
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+MAChart&lt;-function(MAP=12,
+                  df,
+                  xcol=5,
+                  ycol=4,
+                  ywt=3,
+                  xstep=1,
+                  xlab="Date",
+                  ylab="Duration",
+                  main="",
+                  leg="",
+                  fac="",
+                  xRotate=FALSE) {
+}
+{
+  \item{MAP}{
+moving average period to use (default to 12)
+}
+  \item{df}{
+dataframe containing data
+}
+  \item{xcol}{
+column containing complete period of months for graphing in format as.Date (yyyy-mm-dd)
+}
+  \item{ycol}{
+column containing mean duration (in days) of claims closed in closure month. Duration is measured from open date to closed date on ClaimCentre
+}
+  \item{ywt}{
+column containing number of claims closed in month
+}
+  \item{xstep}{
+step for x-axis labels
+}
+  \item{xlab}{
+x-axis title
+}
+  \item{ylab}{
+y-axis title
+}
+  \item{main}{
+heading for chart
+}
+  \item{leg}{
+column name containing factor for legend. Note this column need not be a factor but must be capable of being turned into a factor (i.e. be categorical) 
+}
+  \item{fac}{
+Used to creates series of charts, for each element of fac. Enter name of 
+column to use. Note this column need not be a factor but must be capable of being turned into a factor (i.e. be categorical) 
+}
+  \item{xRotate}{
+default in FALSE. Setto true to rotate x-axis
+}
+
+}
+
+{
+Makes use of ggplot2,directlabels, data.table and scales packages
+}
+{
+returns a chart
+}
+{
+Simon Brickman
+}
+{
+#load data
+load("~/2013RConference/claims2.RData")
+ca&lt;-claims2
+
+ca$Duration&lt;-as.numeric(ca$ClaimClosedDt-ca$ClaimOpenedDt)
+ca$ClosedYYMM&lt;-format(ca$ClaimClosedDt,'
+
+#run by split
+CA&lt;-data.table(ca)
+setkey(CA,ClosedYYMM,ClaimSeverityInd)  #add factor ClaimSeverityInd
+CASUM&lt;-CA[,list(num=length(Duration),mn=mean(Duration)),by=key(CA)]
+
+#create full range from start date to end date in monthly steps
+v&lt;-monthsteps(d1=as.Date("2006-01-01"),as.Date("2012-12-31"))
+df&lt;-data.frame(v,ClosedYYMM=format(v,'
+DF&lt;-data.table(df)
+setkey(DF,ClosedYYMM) 
+
+#run overall
+setkey(CA,ClosedYYMM)
+CASUM&lt;-CA[,list(num=length(Duration),mn=mean(Duration)),by=key(CA)]
+
+#join
+CAS1&lt;-CASUM[DF]               #outer join DF to CASUM
+CAS1[is.na(CAS1)]&lt;-0          #replace NAs with 0
+CAS1&lt;-CAS1[,totdays:=mn*num] #add column for total open period per closed month
+
+library(scales)
+
+MAChart(df=as.data.frame(CAS1),ywt=2,ycol=3,xcol=4,
+        main="Duration to close (12m moving average)",
+        xlab="Closed Year+Month",ylab="Average Duration (days)",xstep=3,xRotate=T)
+</pre>
+
+
+</body></html>
