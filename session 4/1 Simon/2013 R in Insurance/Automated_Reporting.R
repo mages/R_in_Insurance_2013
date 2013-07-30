@@ -28,8 +28,6 @@ require(data.table)
 require(scales)
 
 
-setwd("//bfl.local/dfsroot/users/brics/My Documents/2013R Conference")
-      
 # The following tells knitr to NOT reformat our R code
 opts_chunk$set(tidy = FALSE)
 
