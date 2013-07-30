@@ -1,6 +1,12 @@
-
 session 1/.DS_Store
+session 1/.Rhistory
+session 2/.DS_Store
+session 2/.Rhistory
+session 3/.DS_Store
+session 3/.Rhistory
+session 4/.DS_Store
+session 4/.Rhistory
 
 *.history
+*.DS_Store
 
-session 1/.Rhistory
