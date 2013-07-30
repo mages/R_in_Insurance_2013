@@ -7,7 +7,7 @@ This repository contains the presentation files of the first *R in Insurance* co
 
 The 2013 R in Insurance conference builds upon the success of the [R in Finance](http://www.rinfinance.com/) and [R/Rmetrics](https://www.rmetrics.org/) events.
 
-Accepted talks covered: 
+The [programme](https://github.com/mages/R_in_Insurance_2013/blob/master/R_in_Insurance_Programme_and_Abstracts.pdf?raw=true) included accepted talks covering: 
 
 * Pricing
 * Reserving
