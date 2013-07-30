@@ -8,11 +8,11 @@
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
   
-  <script type="text/javascript" src="http://pdfobject.com/scripts/pdfobject.js"></script>
+  <script type="text/javascript" src="javascripts/pdfobject.js"></script>
   <script type="text/javascript">
 
   window.onload = function (){
-  var success = new PDFObject({ width:"590px", height:"810px", url: "http://github.com/mages/R_in_Insurance_2013/blob/master/R_in_Insurance_Programme_and_Abstracts.pdf?raw=true" }).embed("pdf");
+  var success = new PDFObject({ width:"590px", height:"810px", pdfOpenParams: { view: 'FitH' }, url: "R_in_Insurance_Programme_and_Abstracts.pdf" }).embed("pdf");
   };
 
 </script>
